@@ -1,0 +1,22 @@
+package com.product;
+import javax.persistence.*;
+
+@Entity
+@Table(name = "products")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
+    private Long id;
+
+    @Column(name = "name")
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    // Constructors, getters, and setters
+}
+
+
