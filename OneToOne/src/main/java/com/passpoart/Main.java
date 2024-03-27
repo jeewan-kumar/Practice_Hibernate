@@ -1,0 +1,36 @@
+package com.passpoart;
+
+import java.time.LocalDate;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+public class Main {
+	public static void main(String[] args) {
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("java");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		
+		Passport passport = new Passport();
+		passport.setId((long) 1111111111);
+        passport.setPassportNumber("ABC123456");
+        
+        PassportDetail passportDetail = new PassportDetail();
+        passportDetail.setId((long) 123456789);
+        passportDetail.setIssueDate(LocalDate.of(2022, 1, 1));
+        passportDetail.setExpiryDate(LocalDate.of(2032, 1, 1));
+        passportDetail.setPassport(passport);
+        
+        passport.setPassportDetail(passportDetail);
+        
+        entityTransaction.begin();
+        entityManager.persist(passport);
+        entityManager.persist(passportDetail);
+        entityTransaction.commit();
+        
+        entityManager.close();
+        entityManagerFactory.close();
+	}
+}

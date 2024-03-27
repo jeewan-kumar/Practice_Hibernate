@@ -1,0 +1,37 @@
+package com.employee;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+public class Save {
+    public static void main(String[] args) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("java");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        
+        Employee employee = new Employee();
+        employee.setId(1);
+        employee.setName("Ramu Kumar");
+        
+        EmployeeDetail employeeDetail = new EmployeeDetail();
+        employeeDetail.setId(1); // Set the ID for EmployeeDetail
+        employeeDetail.setAddress("123 Main St, Cityville");
+        employeeDetail.setPhone("9955443322");
+        
+        // Set the Employee object in both entities
+        employee.setEmployeeDetail(employeeDetail);
+        employeeDetail.setEmployee(employee);
+        
+        entityTransaction.begin();
+        entityManager.persist(employee);
+        entityManager.persist(employeeDetail);
+        
+        entityTransaction.commit();
+        
+        entityManager.close();
+        entityManagerFactory.close();
+        
+    }
+}
